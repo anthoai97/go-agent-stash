@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package dsr_agent;
+
+option go_package = "anquach.dev/go-agent-stash/proto/dsr_agent";
+
+enum MessageType {
+  LOG = 0;
+  RESULT = 1;
+}
+
+// The service definition.
+service DsrAgent {
+  // Sends a message
+  rpc SendMessage (GRPCMessagePackage) returns (ServerReply) {}
+}
+
+message GRPCMessagePackage {
+    string agent = 1;
+    string agent_id = 2;
+    string data = 3;
+	  string timestamp = 4;
+	  int32 resend = 5;
+    MessageType type = 6;
+}
+
+message ServerReply {
+  string message = 1;
+}
