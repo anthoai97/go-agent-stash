@@ -1,7 +1,7 @@
 package grpc_server
 
 import (
-	agent_service "anquach.dev/go-agent-stash/proto"
+	agent_service "anquach.dev/go-agent-stash/pb"
 )
 
 type Business interface {

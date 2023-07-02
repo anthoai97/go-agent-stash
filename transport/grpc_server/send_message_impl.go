@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	agent_service "anquach.dev/go-agent-stash/proto"
+	agent_service "anquach.dev/go-agent-stash/pb"
 )
 
 func (s *grpcServer) SendSimpleMsgPack(ctx context.Context, in *agent_service.SimplePackage) (*agent_service.ServerReply, error) {
