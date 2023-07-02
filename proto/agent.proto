@@ -19,11 +19,6 @@ service AgentService {
   rpc SendJsonMsgPack (JsonMsgPack) returns (ServerReply) {}
 }
 
-message ServerReply {
-  string message = 1;
-	bool status = 2;
-}
-
 message PackageMetadata {
 	string agent = 1;
 	string agent_id = 2;
@@ -41,4 +36,17 @@ message SimplePackage {
 message JsonMsgPack {
 	PackageMetadata metadata = 1;
 	repeated google.protobuf.Struct data = 2;
+}
+
+
+message ServerReply {
+	repeated PackageExcuteStatus reply = 1;
+}
+
+message PackageExcuteStatus {
+	bool success = 1;
+	string agent_id = 2;
+	string message_id = 3;
+	string path = 4;
+	string error = 5;
 }

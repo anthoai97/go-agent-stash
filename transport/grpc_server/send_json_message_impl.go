@@ -9,13 +9,12 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (s *grpcServer) SendSimpleMsgPack(ctx context.Context, in *agent_service.SimplePackage) (*agent_service.ServerReply, error) {
-	files := []*entity.FileInfo{entity.NewFileFromSimplePackage(in)}
+func (s *grpcServer) SendJsonMsgPack(ctx context.Context, in *agent_service.JsonMsgPack) (*agent_service.ServerReply, error) {
+	files := []*entity.FileInfo{entity.NewFileFromJsonPackage(in)}
 	res, err := s.business.ExecuteMsgPack(files)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, err.Error())
 	}
-
 	replyData := make([]*agent_service.PackageExcuteStatus, 0)
 	for _, stt := range res {
 		sttToGrpc := &agent_service.PackageExcuteStatus{

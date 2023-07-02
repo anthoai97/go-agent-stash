@@ -7,7 +7,7 @@ import (
 
 	"anquach.dev/go-agent-stash/business"
 	agent_service "anquach.dev/go-agent-stash/pb"
-	"anquach.dev/go-agent-stash/repository"
+	"anquach.dev/go-agent-stash/repository/disk"
 	"anquach.dev/go-agent-stash/transport/grpc_server"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -27,8 +27,7 @@ func startGRPCServer() {
 	}
 
 	// Repo
-
-	diskStorage := repository.NewDiskStorage("tmp")
+	diskStorage := disk.NewDiskStorage("tmp")
 	// bussiness
 	biz := business.NewBusiness(diskStorage)
 

@@ -17,12 +17,3 @@ func NewBusiness(diskStorage DiskStorage) *business {
 		diskStorage: diskStorage,
 	}
 }
-
-func (biz *business) ExecuteBussiness(file *entity.FileInfo) (string, error) {
-	result, err := biz.diskStorage.Save(file)
-	if err != nil {
-		return "", err
-	}
-
-	return result, nil
-}

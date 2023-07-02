@@ -6,7 +6,7 @@ import (
 )
 
 type Business interface {
-	ExecuteBussiness(file *entity.FileInfo) (string, error)
+	ExecuteMsgPack(files []*entity.FileInfo) ([]*entity.FileExecuteStatus, error)
 }
 
 type grpcServer struct {

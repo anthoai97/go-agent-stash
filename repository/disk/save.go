@@ -1,24 +1,12 @@
-package repository
+package disk
 
 import (
 	"fmt"
 	"os"
 	"path"
-	"sync"
 
 	"anquach.dev/go-agent-stash/entity"
 )
-
-type DiskStorage struct {
-	mutex    sync.RWMutex
-	RootPath string
-}
-
-func NewDiskStorage(rootPath string) *DiskStorage {
-	return &DiskStorage{
-		RootPath: rootPath,
-	}
-}
 
 // Save override current file
 func (store *DiskStorage) Save(fileInfo *entity.FileInfo) (string, error) {
@@ -28,8 +16,6 @@ func (store *DiskStorage) Save(fileInfo *entity.FileInfo) (string, error) {
 	if ext != ".json" && ext != ".txt" {
 		return "", fmt.Errorf("not support file extention: %s", ext)
 	}
-	fmt.Println("Full Path =>" + fullPath)
-	fmt.Println("File Data =>" + string(fileInfo.Data))
 
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		err = os.MkdirAll(dir, 0775)
