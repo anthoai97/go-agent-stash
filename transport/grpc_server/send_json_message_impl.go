@@ -10,7 +10,7 @@ import (
 )
 
 func (s *grpcServer) SendJsonMsgPack(ctx context.Context, in *agent_service.JsonMsgPack) (*agent_service.ServerReply, error) {
-	files := []*entity.FileInfo{entity.NewFileFromJsonPackage(in)}
+	files := entity.NewFileFromJsonPackage(in)
 	res, err := s.business.ExecuteMsgPack(files)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, err.Error())
