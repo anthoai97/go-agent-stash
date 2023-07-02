@@ -6,7 +6,7 @@ import (
 	"net"
 
 	"anquach.dev/go-agent-stash/business"
-	dsr "anquach.dev/go-agent-stash/proto/dsr_agent"
+	agent_service "anquach.dev/go-agent-stash/proto"
 	"anquach.dev/go-agent-stash/transport/grpc_server"
 	"google.golang.org/grpc"
 )
@@ -30,7 +30,7 @@ func startGRPCServer() {
 	implServer := grpc_server.NewGrpcServer(biz)
 	s := grpc.NewServer()
 
-	dsr.RegisterDsrAgentServer(s, implServer)
+	agent_service.RegisterAgentServiceServer(s, implServer)
 	fmt.Printf("Start gRPC Service at %v\n", lis.Addr())
 	if err := s.Serve(lis); err != nil {
 		fmt.Println("err")

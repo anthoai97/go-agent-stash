@@ -1,7 +1,7 @@
 package grpc_server
 
 import (
-	dsr "anquach.dev/go-agent-stash/proto/dsr_agent"
+	agent_service "anquach.dev/go-agent-stash/proto"
 )
 
 type Business interface {
@@ -10,7 +10,7 @@ type Business interface {
 
 type grpcServer struct {
 	business Business
-	dsr.UnimplementedDsrAgentServer
+	agent_service.UnimplementedAgentServiceServer
 }
 
 func NewGrpcServer(biz Business) *grpcServer {

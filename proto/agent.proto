@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package agent_service;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "anquach.dev/go-agent-stash/proto/agent";
+
+enum MessageType {
+  LOG = 0;
+  RESULT = 1;
+}
+
+// The service definition.
+service AgentService {
+  rpc SendSimpleMsgPack (SimplePackage) returns (ServerReply) {}
+
+  rpc SendLargeMsgPack (stream LargePackage) returns (ServerReply) {}
+}
+
+message ServerReply {
+  string message = 1;
+	bool status = 2;
+}
+
+message PackageMetadata {
+	string agent = 1;
+	string agent_id = 2;
+	google.protobuf.Timestamp timestamp = 3;
+	int32 resend = 4;
+	string message_id = 5;
+	MessageType type = 6;
+}
+
+message SimplePackage {
+	PackageMetadata metadata = 1;
+	string data = 2;
+}
+
+message LargePackage {
+	PackageMetadata metadata = 1;
+	bytes chunk = 2;
+}
