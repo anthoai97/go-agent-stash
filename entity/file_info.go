@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	agent_service "anquach.dev/go-agent-stash/pb"
+	"anquach.dev/go-agent-stash/serializer"
 )
 
 type FileType int64
@@ -18,13 +19,13 @@ type FileInfo struct {
 func NewFileFromSimplePackage(in *agent_service.SimplePackage) *FileInfo {
 	fileName := GenerateFileNameFromMetadata(in.GetMetadata().GetType())
 	filePath := GenerateFilePathFromMetadata(in.GetMetadata(), fileName)
-	fileData := []byte(in.GetData())
+	data := serializer.WriteArrayStringToByte(in.GetData())
 
 	return &FileInfo{
 		FileName: fileName,
 		FilePath: filePath,
 		Metadata: in.GetMetadata(),
-		Data:     fileData,
+		Data:     data,
 	}
 }
 

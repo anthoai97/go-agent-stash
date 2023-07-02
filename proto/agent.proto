@@ -3,6 +3,7 @@ syntax = "proto3";
 package agent_service;
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
 
 option go_package = "anquach.dev/go-agent-stash/proto/agent";
 
@@ -15,7 +16,7 @@ enum MessageType {
 service AgentService {
   rpc SendSimpleMsgPack (SimplePackage) returns (ServerReply) {}
 
-  rpc SendLargeMsgPack (stream LargePackage) returns (ServerReply) {}
+  rpc SendJsonMsgPack (JsonMsgPack) returns (ServerReply) {}
 }
 
 message ServerReply {
@@ -34,10 +35,10 @@ message PackageMetadata {
 
 message SimplePackage {
 	PackageMetadata metadata = 1;
-	string data = 2;
+	repeated string data = 2;
 }
 
-message LargePackage {
+message JsonMsgPack {
 	PackageMetadata metadata = 1;
-	bytes chunk = 2;
+	repeated google.protobuf.Struct data = 2;
 }

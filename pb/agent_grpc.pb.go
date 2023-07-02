@@ -23,7 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AgentServiceClient interface {
 	SendSimpleMsgPack(ctx context.Context, in *SimplePackage, opts ...grpc.CallOption) (*ServerReply, error)
-	SendLargeMsgPack(ctx context.Context, opts ...grpc.CallOption) (AgentService_SendLargeMsgPackClient, error)
+	SendJsonMsgPack(ctx context.Context, in *JsonMsgPack, opts ...grpc.CallOption) (*ServerReply, error)
 }
 
 type agentServiceClient struct {
@@ -43,38 +43,13 @@ func (c *agentServiceClient) SendSimpleMsgPack(ctx context.Context, in *SimplePa
 	return out, nil
 }
 
-func (c *agentServiceClient) SendLargeMsgPack(ctx context.Context, opts ...grpc.CallOption) (AgentService_SendLargeMsgPackClient, error) {
-	stream, err := c.cc.NewStream(ctx, &AgentService_ServiceDesc.Streams[0], "/agent_service.AgentService/SendLargeMsgPack", opts...)
+func (c *agentServiceClient) SendJsonMsgPack(ctx context.Context, in *JsonMsgPack, opts ...grpc.CallOption) (*ServerReply, error) {
+	out := new(ServerReply)
+	err := c.cc.Invoke(ctx, "/agent_service.AgentService/SendJsonMsgPack", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &agentServiceSendLargeMsgPackClient{stream}
-	return x, nil
-}
-
-type AgentService_SendLargeMsgPackClient interface {
-	Send(*LargePackage) error
-	CloseAndRecv() (*ServerReply, error)
-	grpc.ClientStream
-}
-
-type agentServiceSendLargeMsgPackClient struct {
-	grpc.ClientStream
-}
-
-func (x *agentServiceSendLargeMsgPackClient) Send(m *LargePackage) error {
-	return x.ClientStream.SendMsg(m)
-}
-
-func (x *agentServiceSendLargeMsgPackClient) CloseAndRecv() (*ServerReply, error) {
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
-	m := new(ServerReply)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
+	return out, nil
 }
 
 // AgentServiceServer is the server API for AgentService service.
@@ -82,7 +57,7 @@ func (x *agentServiceSendLargeMsgPackClient) CloseAndRecv() (*ServerReply, error
 // for forward compatibility
 type AgentServiceServer interface {
 	SendSimpleMsgPack(context.Context, *SimplePackage) (*ServerReply, error)
-	SendLargeMsgPack(AgentService_SendLargeMsgPackServer) error
+	SendJsonMsgPack(context.Context, *JsonMsgPack) (*ServerReply, error)
 	mustEmbedUnimplementedAgentServiceServer()
 }
 
@@ -93,8 +68,8 @@ type UnimplementedAgentServiceServer struct {
 func (UnimplementedAgentServiceServer) SendSimpleMsgPack(context.Context, *SimplePackage) (*ServerReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendSimpleMsgPack not implemented")
 }
-func (UnimplementedAgentServiceServer) SendLargeMsgPack(AgentService_SendLargeMsgPackServer) error {
-	return status.Errorf(codes.Unimplemented, "method SendLargeMsgPack not implemented")
+func (UnimplementedAgentServiceServer) SendJsonMsgPack(context.Context, *JsonMsgPack) (*ServerReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendJsonMsgPack not implemented")
 }
 func (UnimplementedAgentServiceServer) mustEmbedUnimplementedAgentServiceServer() {}
 
@@ -127,30 +102,22 @@ func _AgentService_SendSimpleMsgPack_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AgentService_SendLargeMsgPack_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(AgentServiceServer).SendLargeMsgPack(&agentServiceSendLargeMsgPackServer{stream})
-}
-
-type AgentService_SendLargeMsgPackServer interface {
-	SendAndClose(*ServerReply) error
-	Recv() (*LargePackage, error)
-	grpc.ServerStream
-}
-
-type agentServiceSendLargeMsgPackServer struct {
-	grpc.ServerStream
-}
-
-func (x *agentServiceSendLargeMsgPackServer) SendAndClose(m *ServerReply) error {
-	return x.ServerStream.SendMsg(m)
-}
-
-func (x *agentServiceSendLargeMsgPackServer) Recv() (*LargePackage, error) {
-	m := new(LargePackage)
-	if err := x.ServerStream.RecvMsg(m); err != nil {
+func _AgentService_SendJsonMsgPack_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(JsonMsgPack)
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	return m, nil
+	if interceptor == nil {
+		return srv.(AgentServiceServer).SendJsonMsgPack(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/agent_service.AgentService/SendJsonMsgPack",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AgentServiceServer).SendJsonMsgPack(ctx, req.(*JsonMsgPack))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 // AgentService_ServiceDesc is the grpc.ServiceDesc for AgentService service.
@@ -164,13 +131,11 @@ var AgentService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "SendSimpleMsgPack",
 			Handler:    _AgentService_SendSimpleMsgPack_Handler,
 		},
-	},
-	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "SendLargeMsgPack",
-			Handler:       _AgentService_SendLargeMsgPack_Handler,
-			ClientStreams: true,
+			MethodName: "SendJsonMsgPack",
+			Handler:    _AgentService_SendJsonMsgPack_Handler,
 		},
 	},
+	Streams:  []grpc.StreamDesc{},
 	Metadata: "agent.proto",
 }

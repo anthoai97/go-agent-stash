@@ -1,11 +1,12 @@
 package grpc_server
 
 import (
+	"anquach.dev/go-agent-stash/entity"
 	agent_service "anquach.dev/go-agent-stash/pb"
 )
 
 type Business interface {
-	ExecuteBussiness(*agent_service.SimplePackage) (string, error)
+	ExecuteBussiness(file *entity.FileInfo) (string, error)
 }
 
 type grpcServer struct {

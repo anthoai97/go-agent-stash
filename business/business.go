@@ -2,7 +2,6 @@ package business
 
 import (
 	"anquach.dev/go-agent-stash/entity"
-	agent_service "anquach.dev/go-agent-stash/pb"
 )
 
 type DiskStorage interface {
@@ -19,8 +18,7 @@ func NewBusiness(diskStorage DiskStorage) *business {
 	}
 }
 
-func (biz *business) ExecuteBussiness(in *agent_service.SimplePackage) (string, error) {
-	file := entity.NewFileFromSimplePackage(in)
+func (biz *business) ExecuteBussiness(file *entity.FileInfo) (string, error) {
 	result, err := biz.diskStorage.Save(file)
 	if err != nil {
 		return "", err
