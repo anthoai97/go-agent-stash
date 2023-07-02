@@ -5,7 +5,7 @@ import (
 )
 
 type Business interface {
-	ExecuteBussiness() string
+	ExecuteBussiness(*agent_service.SimplePackage) (string, error)
 }
 
 type grpcServer struct {
