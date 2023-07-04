@@ -2,6 +2,7 @@ package grpc_server
 
 import (
 	"context"
+	"fmt"
 
 	"anquach.dev/go-agent-stash/entity"
 	agent_service "anquach.dev/go-agent-stash/pb"
@@ -10,6 +11,7 @@ import (
 )
 
 func (s *grpcServer) SendSimpleMsgPack(ctx context.Context, in *agent_service.SimplePackage) (*agent_service.ServerReply, error) {
+	fmt.Printf("Receive SendSimpleMsgPack from %s | %s\n", in.Metadata.GetAgent(), in.Metadata.GetMessageId())
 	files := []*entity.FileInfo{entity.NewFileFromSimplePackage(in)}
 	res, err := s.business.ExecuteMsgPack(files)
 	if err != nil {

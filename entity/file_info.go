@@ -35,7 +35,10 @@ func NewFileFromJsonPackage(in *agent_service.JsonMsgPack) []*FileInfo {
 	for idx, data := range in.GetData() {
 		fileName := GenerateFileNameFromMetadata(in.GetMetadata().GetType(), strconv.Itoa(idx))
 		filePath := GenerateFilePathFromMetadata(in.GetMetadata(), fileName)
-		dataInByte, _ := data.MarshalJSON()
+		dataInByte, err := data.MarshalJSON()
+		if err != nil {
+			fmt.Println(err)
+		}
 		files = append(files, &FileInfo{
 			FileName: fileName,
 			FilePath: filePath,
