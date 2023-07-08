@@ -21,13 +21,20 @@ func (biz *business) ExecuteMsgPack(files []*entity.FileInfo) ([]*entity.FileExe
 
 		go func(file *entity.FileInfo) {
 			defer wg.Done()
-			path, err := biz.diskStorage.Save(file)
+			var path string
+			var err error
+
+			if file.Metadata.Type == 0 {
+				path, err = biz.diskStorage.SaveAppend(file)
+			} else {
+				path, err = biz.diskStorage.SaveNew(file)
+			}
 
 			status := file.GenerateFileExecuteStatus()
 
 			if err != nil {
 				status.Success = false
-				status.Error = err.Error()
+				status.Error = err
 				resChan <- status
 				return
 			}

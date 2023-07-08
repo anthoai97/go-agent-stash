@@ -5,7 +5,9 @@ import (
 )
 
 type DiskStorage interface {
-	Save(file *entity.FileInfo) (string, error)
+	Save(file *entity.FileInfo, isAppend bool) (string, error)
+	SaveAppend(file *entity.FileInfo) (string, error)
+	SaveNew(file *entity.FileInfo) (string, error)
 }
 
 type business struct {

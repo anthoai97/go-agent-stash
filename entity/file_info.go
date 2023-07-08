@@ -2,13 +2,14 @@ package entity
 
 import (
 	"fmt"
-	"strconv"
 
 	agent_service "anquach.dev/go-agent-stash/pb"
 	"anquach.dev/go-agent-stash/serializer"
 )
 
 type FileType int64
+
+// O Logs, 1 Json
 
 type FileInfo struct {
 	FileName string
@@ -18,7 +19,7 @@ type FileInfo struct {
 }
 
 func NewFileFromSimplePackage(in *agent_service.SimplePackage) *FileInfo {
-	fileName := GenerateFileNameFromMetadata(in.GetMetadata().GetType(), strconv.Itoa(0))
+	fileName := GenerateFileNameFromMetadata(in.GetMetadata().GetType())
 	filePath := GenerateFilePathFromMetadata(in.GetMetadata(), fileName)
 	data := serializer.WriteArrayStringToByte(in.GetData())
 
@@ -32,8 +33,8 @@ func NewFileFromSimplePackage(in *agent_service.SimplePackage) *FileInfo {
 
 func NewFileFromJsonPackage(in *agent_service.JsonMsgPack) []*FileInfo {
 	files := make([]*FileInfo, 0)
-	for idx, data := range in.GetData() {
-		fileName := GenerateFileNameFromMetadata(in.GetMetadata().GetType(), strconv.Itoa(idx))
+	for _, data := range in.GetData() {
+		fileName := GenerateFileNameFromMetadata(in.GetMetadata().GetType())
 		filePath := GenerateFilePathFromMetadata(in.GetMetadata(), fileName)
 		dataInByte, err := data.MarshalJSON()
 		if err != nil {
@@ -55,12 +56,12 @@ func GenerateFilePathFromMetadata(metadata *agent_service.PackageMetadata, fileN
 	return filePath
 }
 
-func GenerateFileNameFromMetadata(mgsType agent_service.MessageType, suffix string) string {
+func GenerateFileNameFromMetadata(mgsType agent_service.MessageType) string {
 	switch mgsType {
 	case agent_service.MessageType_LOG:
-		return fmt.Sprintf("logs_%s.txt", suffix)
+		return "logs/log_suffix.txt"
 	case agent_service.MessageType_RESULT:
-		return fmt.Sprintf("result_%s.json", suffix)
+		return "jsons/json_suffix.json"
 	}
 	return "unknown.txt"
 }

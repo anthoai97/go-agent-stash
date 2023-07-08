@@ -19,12 +19,16 @@ func (s *grpcServer) SendJsonMsgPack(ctx context.Context, in *agent_service.Json
 	}
 	replyData := make([]*agent_service.PackageExcuteStatus, 0)
 	for _, stt := range res {
+		err := ""
+		if stt.Error != nil {
+			err = fmt.Sprintf("SendSimpleMsgPack throw error ==> %s", stt.Error.Error())
+		}
 		sttToGrpc := &agent_service.PackageExcuteStatus{
 			AgentId:   stt.AgentID,
 			Success:   stt.Success,
 			MessageId: stt.MessageID,
 			Path:      stt.Path,
-			Error:     stt.Error,
+			Error:     err,
 		}
 		replyData = append(replyData, sttToGrpc)
 	}

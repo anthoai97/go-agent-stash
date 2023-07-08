@@ -1,0 +1,6 @@
+- Get Result APIs
+- Get Logs
+- Add time to Logs
+- Create new logs file
+
+- File Structure

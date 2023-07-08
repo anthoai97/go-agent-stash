@@ -5,5 +5,5 @@ type FileExecuteStatus struct {
 	AgentID   string `json:"agent_id"`
 	MessageID string `json:"message_id"`
 	Path      string `json:"path"`
-	Error     string `json:"error"`
+	Error     error  `json:"error"`
 }

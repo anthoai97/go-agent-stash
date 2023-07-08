@@ -15,17 +15,21 @@ func (s *grpcServer) SendSimpleMsgPack(ctx context.Context, in *agent_service.Si
 	files := []*entity.FileInfo{entity.NewFileFromSimplePackage(in)}
 	res, err := s.business.ExecuteMsgPack(files)
 	if err != nil {
+		fmt.Println("err ==> " + err.Error())
 		return nil, status.Errorf(codes.InvalidArgument, err.Error())
 	}
-
 	replyData := make([]*agent_service.PackageExcuteStatus, 0)
 	for _, stt := range res {
+		err := ""
+		if stt.Error != nil {
+			err = fmt.Sprintf("SendSimpleMsgPack throw error ==> %s", stt.Error.Error())
+		}
 		sttToGrpc := &agent_service.PackageExcuteStatus{
-			AgentId:   stt.AgentID,
 			Success:   stt.Success,
+			AgentId:   stt.AgentID,
 			MessageId: stt.MessageID,
 			Path:      stt.Path,
-			Error:     stt.Error,
+			Error:     err,
 		}
 		replyData = append(replyData, sttToGrpc)
 	}
