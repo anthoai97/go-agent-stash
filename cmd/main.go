@@ -8,6 +8,7 @@ import (
 	"anquach.dev/go-agent-stash/business"
 	agent_service "anquach.dev/go-agent-stash/pb"
 	"anquach.dev/go-agent-stash/repository/disk"
+	"anquach.dev/go-agent-stash/serializer"
 	"anquach.dev/go-agent-stash/transport/grpc_server"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -27,7 +28,8 @@ func startGRPCServer() {
 	}
 
 	// Repo
-	diskStorage := disk.NewDiskStorage("tmp")
+	root := serializer.GetEnvVar("STASH_ROOT_PATH", "stash")
+	diskStorage := disk.NewDiskStorage(root)
 	// bussiness
 	biz := business.NewBusiness(diskStorage)
 

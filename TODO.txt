@@ -4,3 +4,10 @@
 - Create new logs file
 
 - File Structure
+
+- Get All Json of request
+- Get all logs of request
+- Get latest jsons of request
+- Get latest logs of request
+
+- 2023 - 12 - 10

@@ -1,9 +1,12 @@
 package serializer
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"strconv"
+
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func WriteArrayStringToByte(array []string) []byte {
@@ -45,4 +48,15 @@ func GetEnvVar[T any](key string, defaultValue T) T {
 		ret = int(i)
 	}
 	return ret.(T)
+}
+
+func TimestampToPath(timestamp *timestamppb.Timestamp) string {
+	if timestamp == nil {
+		timestamp = timestamppb.Now()
+	}
+	year := timestamp.AsTime().Year()
+	month := timestamp.AsTime().Month()
+	day := timestamp.AsTime().Day()
+
+	return fmt.Sprintf("%d/%d/%d", year, month, day)
 }
