@@ -3,7 +3,7 @@ package entity
 import (
 	"fmt"
 
-	agent_service "anquach.dev/go-agent-stash/pb"
+	agent_service "anquach.dev/go-agent-stash/proto/agent"
 	"anquach.dev/go-agent-stash/serializer"
 )
 

@@ -1,7 +1,7 @@
 package entity
 
 import (
-	agent_service "anquach.dev/go-agent-stash/pb"
+	agent_service "anquach.dev/go-agent-stash/proto/agent"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 

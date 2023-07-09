@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"anquach.dev/go-agent-stash/entity"
-	agent_service "anquach.dev/go-agent-stash/pb"
+	agent_service "anquach.dev/go-agent-stash/proto/agent"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
