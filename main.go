@@ -8,19 +8,19 @@ import (
 
 	"anquach.dev/go-agent-stash/business"
 	agent_service "anquach.dev/go-agent-stash/proto/agent"
-	reader_service "anquach.dev/go-agent-stash/proto/reader"
 	"anquach.dev/go-agent-stash/repository/disk"
 	"anquach.dev/go-agent-stash/serializer"
 	"anquach.dev/go-agent-stash/transport/grpc_server"
+	gateway "anquach.dev/go-agent-stash/transport/http_server"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/grpclog"
+	"google.golang.org/grpc/health/grpc_health_v1"
 	"google.golang.org/grpc/reflection"
 )
 
 func main() {
 	fmt.Println("Init Agent Stash....")
 
-	fmt.Println("1. Start grpc server")
 	startGRPCServer()
 }
 
@@ -47,17 +47,19 @@ func startGRPCServer() {
 
 	// Register gRPC Service
 	agent_service.RegisterAgentServiceServer(s, implServer)
-	reader_service.RegisterGreeterServiceServer(s, implServer)
+	// reader_service.RegisterGreeterServiceServer(s, implServer)
+	grpc_health_v1.RegisterHealthServer(s, implServer)
 
 	// Register gRPC refection
 	reflection.Register(s)
 
 	// Start gRPC Server
-	fmt.Printf("Start gRPC Service at %v\n", lis.Addr())
+	log.Info("Start gRPC Service at ", lis.Addr().String())
 	go func() {
 		log.Fatal(s.Serve(lis))
 	}()
 
 	// Start Gateway http
-	// TODO: Implement Gateway
+	err = gateway.Run("dns:///" + addr)
+	log.Fatalln(err)
 }

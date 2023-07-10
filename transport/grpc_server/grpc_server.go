@@ -3,7 +3,7 @@ package grpc_server
 import (
 	"anquach.dev/go-agent-stash/entity"
 	agent_service "anquach.dev/go-agent-stash/proto/agent"
-	reader_service "anquach.dev/go-agent-stash/proto/reader"
+	"google.golang.org/grpc/health/grpc_health_v1"
 )
 
 type Business interface {
@@ -13,7 +13,8 @@ type Business interface {
 type grpcServer struct {
 	business Business
 	agent_service.UnimplementedAgentServiceServer
-	reader_service.UnimplementedGreeterServiceServer
+	// reader_service.UnimplementedGreeterServiceServer
+	grpc_health_v1.UnimplementedHealthServer
 }
 
 func NewGrpcServer(biz Business) *grpcServer {
