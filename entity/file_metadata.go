@@ -5,6 +5,8 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
+type FileType int64
+
 const (
 	Logs FileType = iota
 	Result

@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"time"
 
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -46,6 +47,10 @@ func GetEnvVar[T any](key string, defaultValue T) T {
 		// don't actually ignore errors
 		i, _ := strconv.ParseInt(value, 10, 64)
 		ret = int(i)
+
+	case bool:
+		i, _ := strconv.ParseBool(value)
+		ret = bool(i)
 	}
 	return ret.(T)
 }
@@ -59,4 +64,8 @@ func TimestampToPath(timestamp *timestamppb.Timestamp) string {
 	day := timestamp.AsTime().Day()
 
 	return fmt.Sprintf("%d/%d/%d", year, month, day)
+}
+
+func XTimeFromNToNow(fromTime time.Time) int64 {
+	return (time.Now().UnixNano() - fromTime.UnixNano()) / (int64(time.Millisecond) / int64(time.Nanosecond))
 }

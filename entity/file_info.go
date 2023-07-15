@@ -7,8 +7,6 @@ import (
 	"anquach.dev/go-agent-stash/serializer"
 )
 
-type FileType int64
-
 // O Logs, 1 Json
 
 type FileInfo struct {

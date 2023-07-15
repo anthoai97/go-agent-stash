@@ -8,8 +8,16 @@ require (
 )
 
 require (
+	github.com/aws/aws-sdk-go v1.44.258 // indirect
+	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
+)
+
+require (
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.16.0 // indirect
+	github.com/joho/godotenv v1.5.1 // indirect
+	github.com/seqsense/s3sync v1.9.0
 	golang.org/x/net v0.10.0 // indirect
 	golang.org/x/sys v0.8.0 // indirect
 	golang.org/x/text v0.9.0 // indirect

@@ -7,7 +7,7 @@ import (
 	"anquach.dev/go-agent-stash/entity"
 )
 
-func (biz *business) ExecuteMsgPack(files []*entity.FileInfo) ([]*entity.FileExecuteStatus, error) {
+func (biz *Business) ExecuteMsgPack(files []*entity.FileInfo) ([]*entity.FileExecuteStatus, error) {
 	if len(files) < 1 {
 		return nil, fmt.Errorf("files is empty")
 	}

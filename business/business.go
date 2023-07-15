@@ -10,12 +10,18 @@ type DiskStorage interface {
 	SaveNew(file *entity.FileInfo) (string, error)
 }
 
-type business struct {
-	diskStorage DiskStorage
+type S3Storage interface {
+	Sync(from string, to string) error
 }
 
-func NewBusiness(diskStorage DiskStorage) *business {
-	return &business{
+type Business struct {
+	diskStorage DiskStorage
+	s3Storage   S3Storage
+}
+
+func NewBusiness(diskStorage DiskStorage, s3Storage S3Storage) *Business {
+	return &Business{
 		diskStorage: diskStorage,
+		s3Storage:   s3Storage,
 	}
 }
