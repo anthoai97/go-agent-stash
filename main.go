@@ -3,10 +3,12 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net"
 	"os"
 
 	"anquach.dev/go-agent-stash/business"
+	"anquach.dev/go-agent-stash/job"
 	agent_service "anquach.dev/go-agent-stash/proto/agent"
 	"anquach.dev/go-agent-stash/repository/disk"
 	"anquach.dev/go-agent-stash/repository/s3_storage"
@@ -34,7 +36,7 @@ func main() {
 	if env == string(Develop) {
 		err := godotenv.Load()
 		if err != nil {
-			fmt.Print("Error loading .env file")
+			log.Fatal(err.Error())
 		}
 	}
 
@@ -45,9 +47,13 @@ func main() {
 	// bussiness
 	biz := business.NewBusiness(diskStorage, s3Storage)
 
-	biz.SyncToS3(serializer.GetEnvVar("STASH_ROOT_PATH", "stash"), "s3://dsr-customer-storage-dev")
+	// Schedule Jobs
+	jobManager := job.NewJobManager(biz)
+	if err := jobManager.StartJobs(); err != nil {
+		log.Fatal(err.Error())
+	}
 
-	// startGRPCServerAndGateway(biz)
+	startGRPCServerAndGateway(biz)
 }
 
 func startGRPCServerAndGateway(biz *business.Business) {

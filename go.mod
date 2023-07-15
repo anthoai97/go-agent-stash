@@ -17,6 +17,7 @@ require (
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.16.0 // indirect
 	github.com/joho/godotenv v1.5.1 // indirect
+	github.com/robfig/cron/v3 v3.0.1
 	github.com/seqsense/s3sync v1.9.0
 	golang.org/x/net v0.10.0 // indirect
 	golang.org/x/sys v0.8.0 // indirect
