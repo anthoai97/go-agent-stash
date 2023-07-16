@@ -1,4 +1,7 @@
-<p align="center">
+
+# Go Agent Stash
+
+<p>
 	<a  target="_blank">
 			<img src="https://github.com/tiangolo/fastapi/workflows/Test/badge.svg?event=push&branch=master" alt="Test">
 	</a>
@@ -7,7 +10,7 @@
 	<a><img alt="Static Badge" <img alt="Static Badge" src="https://img.shields.io/badge/golang-1.20-brightgreen?logo=go"></a>
 </p>
 
-## Description
+## Introduction
 
 Go Agent Stash is a simple service receive logs from agents - save logs in to filesystem - sync logs to AWS S3
 
