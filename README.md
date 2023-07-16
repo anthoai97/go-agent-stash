@@ -1,9 +1,9 @@
 <p align="center">
-	<a href="https://github.com/tiangolo/fastapi/actions?query=workflow%3ATest+event%3Apush+branch%3Amaster" target="_blank">
+	<a  target="_blank">
 			<img src="https://github.com/tiangolo/fastapi/workflows/Test/badge.svg?event=push&branch=master" alt="Test">
 	</a>
-	<a href="https://fastapi.tiangolo.com"><img alt="Static Badge" src="https://img.shields.io/badge/docker-supported-brightgreen?logo=docker"></a>
-	<a href="https://fastapi.tiangolo.com"><img alt="Static Badge" src="https://img.shields.io/badge/kubernetes-supported-brightgreen?logo=kubernetes"></a>
+	<a ><img alt="Static Badge" src="https://img.shields.io/badge/docker-processing-red?logo=docker"></a>
+	<a ><img alt="Static Badge" src="https://img.shields.io/badge/kubernetes-processing-red?logo=kubernetes"></a>
 	<a><img alt="Static Badge" <img alt="Static Badge" src="https://img.shields.io/badge/golang-1.20-brightgreen?logo=go"></a>
 </p>
 
