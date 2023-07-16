@@ -21,8 +21,6 @@ The key features are:
 
 ![Architecture](./architecture.png)
 
----
-
 ## Requirements
 Golang 1.20
 
@@ -44,8 +42,6 @@ export KUBE_CONFIG=<You-.kube-config>
 kubectl apply -f k8s/
 ```
 
----
-
 ## Owner
 
 <table>
@@ -53,8 +49,6 @@ kubectl apply -f k8s/
     <td align="center"><a href="https://github.com/anthoai97"><img src="https://avatars.githubusercontent.com/u/85854989?v=4" width="100px;" alt="An Quach"/><br /><sub><b>An Thoai</b></sub></a><br /></td>
     </tr>
 </table>
-
----
 
 ## License
 
