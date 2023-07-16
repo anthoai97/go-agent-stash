@@ -37,12 +37,18 @@ make server
 ---> Your service will start in port=8080(http) & port=9090(gRPC) 
 ```
 
-You can easy deploy to you Kubernetes
+You can deploy namespace, deployment, services, ingress into your Kubernetes
 
 ```console
 export KUBE_CONFIG=<You-.kube-config>
 
 kubectl apply -f k8s/
+```
+
+You can build your own docker image
+
+```console
+docker run -t go-agent-stash . 
 ```
 
 ## Owner
