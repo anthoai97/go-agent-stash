@@ -7,8 +7,8 @@
 	<a><img alt="Static Badge" <img alt="Static Badge" src="https://img.shields.io/badge/golang-1.20-brightgreen?logo=go"></a>
 </p>
 
+## Description
 
----
 Go Agent Stash is a simple service receive logs from agents - save logs in to filesystem - sync logs to AWS S3
 
 The key features are:
