@@ -15,7 +15,7 @@ The key features are:
 * **Fast transport gRPC**: Using gRPC protocol for fast transfer data between internal service of microservice system.
 * **Gateway proxy**: Support gRPC Gateway Proxy to optional get data back by RESTful API or gRPC.
 * **Schedule jobs**: Can setup schedule jobs to sync data to S3, clean local file system.
-* **Support Docker & Kubernestes**: You can easy deploy own system with script.
+* **Support Docker & Kubernestes**: You can easy deploy to your own system with created scripts.
 
 ## Architecture
 
