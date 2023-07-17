@@ -59,11 +59,11 @@ func TimestampToPath(timestamp *timestamppb.Timestamp) string {
 	if timestamp == nil {
 		timestamp = timestamppb.Now()
 	}
-	year := timestamp.AsTime().Year()
-	month := timestamp.AsTime().Month()
-	day := timestamp.AsTime().Day()
+	year := fmt.Sprintf("%02d", timestamp.AsTime().Year())
+	month := fmt.Sprintf("%02d", timestamp.AsTime().Month())
+	day := fmt.Sprintf("%02d", timestamp.AsTime().Day())
 
-	return fmt.Sprintf("%d/%d/%d", year, month, day)
+	return fmt.Sprintf("%s/%s/%s", year, month, day)
 }
 
 func XTimeFromNToNow(fromTime time.Time) int64 {

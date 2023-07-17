@@ -17,7 +17,7 @@ type FileInfo struct {
 }
 
 func NewFileFromSimplePackage(in *agent_service.SimplePackage) *FileInfo {
-	fileName := GenerateFileNameFromMetadata(in.GetMetadata().GetType())
+	fileName := GenerateFileNameFromMetadata(in.GetMetadata())
 	filePath := GenerateFilePathFromMetadata(in.GetMetadata(), fileName)
 	data := serializer.WriteArrayStringToByte(in.GetData())
 
@@ -32,7 +32,7 @@ func NewFileFromSimplePackage(in *agent_service.SimplePackage) *FileInfo {
 func NewFileFromJsonPackage(in *agent_service.JsonMsgPack) []*FileInfo {
 	files := make([]*FileInfo, 0)
 	for _, data := range in.GetData() {
-		fileName := GenerateFileNameFromMetadata(in.GetMetadata().GetType())
+		fileName := GenerateFileNameFromMetadata(in.GetMetadata())
 		filePath := GenerateFilePathFromMetadata(in.GetMetadata(), fileName)
 		dataInByte, err := data.MarshalJSON()
 		if err != nil {
@@ -54,12 +54,14 @@ func GenerateFilePathFromMetadata(metadata *agent_service.PackageMetadata, fileN
 	return filePath
 }
 
-func GenerateFileNameFromMetadata(mgsType agent_service.MessageType) string {
-	switch mgsType {
+func GenerateFileNameFromMetadata(metadata *agent_service.PackageMetadata) string {
+	timePath := serializer.TimestampToPath(metadata.Timestamp)
+
+	switch metadata.GetType() {
 	case agent_service.MessageType_LOG:
-		return "logs/log_suffix.txt"
+		return fmt.Sprintf("log/%s/log_suffix.log", timePath)
 	case agent_service.MessageType_RESULT:
-		return "jsons/json_suffix.json"
+		return fmt.Sprintf("json/%s/json_suffix.json", timePath)
 	}
 	return "unknown.txt"
 }

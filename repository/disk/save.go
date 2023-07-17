@@ -13,11 +13,10 @@ import (
 
 // Save new current file
 func (store *DiskStorage) Save(fileInfo *entity.FileInfo, isAppend bool) (string, error) {
-	timePath := serializer.TimestampToPath(fileInfo.Metadata.Timestamp)
-	fullPath := fmt.Sprintf("%s/%s/%s", store.RootPath, timePath, fileInfo.FilePath)
+	fullPath := fmt.Sprintf("%s/%s", store.RootPath, fileInfo.FilePath)
 	dir := path.Dir(fullPath)
 	ext := path.Ext(fullPath)
-	if ext != ".json" && ext != ".txt" {
+	if ext != ".json" && ext != ".log" && ext != ".txt" {
 		return "", fmt.Errorf("not support file extention: %s", ext)
 	}
 
@@ -41,7 +40,7 @@ func (store *DiskStorage) Save(fileInfo *entity.FileInfo, isAppend bool) (string
 	finalPath := strings.Replace(fullPath, "suffix", strconv.Itoa(prefix), 1)
 	fi, err := os.Stat(finalPath)
 	if err == nil && isAppend {
-		if fi.Size() >= serializer.GetEnvVar[int64]("MAX_FILE_SIZE", 20000) { // Default 20KB
+		if fi.Size() >= int64(serializer.GetEnvVar("MAX_FILE_SIZE", 1000000)) { // Default 5KB
 			finalPath = strings.Replace(fullPath, "suffix", strconv.Itoa(prefix+1), 1)
 		}
 	}
