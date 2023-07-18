@@ -55,8 +55,11 @@ func GenerateFilePathFromMetadata(metadata *agent_service.PackageMetadata, fileN
 }
 
 func GenerateFileNameFromMetadata(metadata *agent_service.PackageMetadata) string {
-	timePath := serializer.TimestampToPath(metadata.Timestamp)
+	if metadata == nil {
+		return "unknown.txt"
+	}
 
+	timePath := serializer.TimestampToPath(metadata.Timestamp)
 	switch metadata.GetType() {
 	case agent_service.MessageType_LOG:
 		return fmt.Sprintf("log/%s/log_suffix.log", timePath)

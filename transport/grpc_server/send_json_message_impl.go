@@ -11,6 +11,9 @@ import (
 )
 
 func (s *grpcServer) SendJsonMsgPack(ctx context.Context, in *agent_service.JsonMsgPack) (*agent_service.ServerReply, error) {
+	if in.GetMetadata() == nil || in.GetData() == nil {
+		return nil, status.Error(400, "Default error message for 400")
+	}
 	fmt.Printf("Receive SendJsonMsgPack from %s | %s\n", in.Metadata.GetAgent(), in.Metadata.GetMessageId())
 	files := entity.NewFileFromJsonPackage(in)
 	res, err := s.business.ExecuteMsgPack(files)

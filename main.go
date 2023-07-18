@@ -73,7 +73,6 @@ func startGRPCServerAndGateway(biz *business.Business) {
 
 	// Register gRPC Service
 	agent_service.RegisterAgentServiceServer(s, implServer)
-	// reader_service.RegisterGreeterServiceServer(s, implServer)
 	grpc_health_v1.RegisterHealthServer(s, implServer)
 
 	// Register gRPC refection

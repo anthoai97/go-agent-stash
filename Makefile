@@ -1,6 +1,7 @@
 BUF_VERSION:=v1.17.0
 
-generate: go run github.com/bufbuild/buf/cmd/buf@$(BUF_VERSION) generate
+generate:
+	go run github.com/bufbuild/buf/cmd/buf@$(BUF_VERSION) generate
 
 clean:
 	rm pb/*

@@ -4,6 +4,7 @@ package agent_service;
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/struct.proto";
+import "google/api/annotations.proto";
 
 option go_package = "anquach.dev/go-agent-stash/proto/agent";
 
@@ -14,7 +15,14 @@ enum MessageType {
 
 // The service definition.
 service AgentService {
-  rpc SendSimpleMsgPack (SimplePackage) returns (ServerReply) {}
+  rpc SendSimpleMsgPack (SimplePackage) returns (ServerReply) {
+	option (google.api.http) = {
+    // this is url, for RESTfull/JSON api and method
+    // this line means when a HTTP post request comes with "/v1/message" call this rpc method over this service
+      post: "/v1/message"
+      body: "*"
+    };
+  }
 
   rpc SendJsonMsgPack (JsonMsgPack) returns (ServerReply) {}
 }

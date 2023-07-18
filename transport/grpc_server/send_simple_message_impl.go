@@ -11,7 +11,11 @@ import (
 )
 
 func (s *grpcServer) SendSimpleMsgPack(ctx context.Context, in *agent_service.SimplePackage) (*agent_service.ServerReply, error) {
-	fmt.Printf("Receive SendSimpleMsgPack from %s | %s\n", in.Metadata.GetAgent(), in.Metadata.GetMessageId())
+	if in.GetMetadata() == nil || in.GetData() == nil {
+		return nil, status.Error(400, "Default error message for 400")
+	}
+	fmt.Printf("Receive SendJsonMsgPack from %s | %s\n", in.Metadata.GetAgent(), in.Metadata.GetMessageId())
+
 	files := []*entity.FileInfo{entity.NewFileFromSimplePackage(in)}
 	res, err := s.business.ExecuteMsgPack(files)
 	if err != nil {
