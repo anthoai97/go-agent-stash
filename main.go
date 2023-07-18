@@ -61,7 +61,9 @@ func startGRPCServerAndGateway(biz *business.Business) {
 	log := grpclog.NewLoggerV2(os.Stdout, ioutil.Discard, ioutil.Discard)
 	grpclog.SetLoggerV2(log)
 
-	addr := "0.0.0.0:9090"
+	port := serializer.GetEnvVar("GRPC_PORT", "9090")
+
+	addr := "0.0.0.0:" + port
 	lis, err := net.Listen("tcp", addr)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)

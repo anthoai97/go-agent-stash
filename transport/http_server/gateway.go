@@ -41,7 +41,7 @@ func Run(dialAddr string) error {
 		return fmt.Errorf("failed to register gateway: %w", err)
 	}
 
-	port := serializer.GetEnvVar("PORT", "8080")
+	port := serializer.GetEnvVar("HTTP_PORT", "8080")
 	gatewayAddr := "0.0.0.0:" + port
 	mux := http.NewServeMux()
 	mux.Handle("/", gwmux)
