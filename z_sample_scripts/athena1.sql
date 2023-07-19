@@ -1,25 +1,25 @@
 /*  This is an Athena example to review logs data
 time
+method
 status_code
 domain
 path
 host_ip
-bytes_in
 bytes_out
 response_processing_time	
 api_key_id
 */
 
--- 2023-7-17T22:23:00.186641Z 200 api.gauvendi.com /inventory/v1/product 127.0.0.12 12300 12356 2000 F61f2DvRvZ1bvPXdAS3PggCpCaWGj1uD
+-- 2023-07-18T10:05:01.976Z GET 200 localhost /organization/v0/properties 0:0:0:0:0:0:0:1 4264 348 wUN0NeTMByHVmIOjo79ImwylAjjkRtkr
 
 -- Athena query processing
 CREATE EXTERNAL TABLE IF NOT EXISTS custom_logs (
 	time string,
+	method string,
 	status_code int,
 	domain string,
 	path string,
 	host_ip string,
-	bytes_in bigint,
 	bytes_out bigint,
 	response_processing_time double,
 	api_key_id string
