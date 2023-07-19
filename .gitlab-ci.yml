@@ -1,0 +1,20 @@
+include:
+  - remote: 'https://gitlab.com/api/v4/projects/28640386/repository/files/.gitlab%2Fci%2Fpublish-image.gitlab-ci.yml/raw?ref=main&private_token=glpat-zP9f2RsCEcjBMsGsiNs8&ext=.yml'
+  - remote: 'https://gitlab.com/api/v4/projects/28640386/repository/files/.gitlab%2Fci%2Fdeploy-eks.gitlab-ci.yml/raw?ref=main&private_token=glpat-zP9f2RsCEcjBMsGsiNs8&ext=.yml'
+
+workflow:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master" && $CI_COMMIT_MESSAGE !~ /^chore/'
+    - if: '$CI_COMMIT_BRANCH == "qa" && $CI_COMMIT_MESSAGE !~ /^chore/'
+      when: always
+    - when: never
+
+variables:
+  DEPLOYMENT_NAME: agent-stash
+  ENABLE_OVERRIDE_NS: "false"
+  NAMESPACE: gvd-monitoring
+  STAGE_BUILD: DEV
+
+stages:
+  - publish_image
+  - deploy
