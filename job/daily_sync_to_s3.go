@@ -8,7 +8,7 @@ func (j *JobManager) DailySyncToS3() error {
 	}
 
 	j.Logger.Info("Register DailySyncToS3")
-	dailySyncToS3Job, err := j.cron.AddFunc("*/20 * * * * *", func() {
+	dailySyncToS3Job, err := j.cron.AddFunc("5 * * * *", func() {
 		j.Logger.Info("Executing job DailySyncToS3")
 		j.bussiness.SyncToS3(serializer.GetEnvVar("STASH_ROOT_PATH", "stash"), serializer.GetEnvVar("S3_ROOT_PATH", ""))
 	})
