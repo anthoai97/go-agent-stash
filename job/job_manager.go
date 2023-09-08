@@ -14,7 +14,7 @@ type JobManager struct {
 }
 
 func NewJobManager(business *business.Business) *JobManager {
-	c := cron.New(cron.WithSeconds())
+	c := cron.New()
 
 	return &JobManager{
 		Logger:    serializer.CustomLogger(),
